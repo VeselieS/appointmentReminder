@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">appointmentReminder</string>
+    <string name="addappointment">addAppointment</string>
+</resources>
