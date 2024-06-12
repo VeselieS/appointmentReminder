@@ -13,6 +13,11 @@
         android:theme="@style/Theme.AppointmentReminder"
         tools:targetApi="31">
         <activity
+            android:name=".Clients"
+            android:exported="false"
+            android:label="@string/title_activity_clients"
+            android:theme="@style/Theme.AppointmentReminder.NoActionBar" />
+        <activity
             android:name=".AddAppointment"
             android:exported="false" />
         <activity
