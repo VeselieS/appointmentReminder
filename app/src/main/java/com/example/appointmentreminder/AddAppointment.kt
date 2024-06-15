@@ -1,5 +1,7 @@
 package com.example.appointmentreminder
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -11,10 +13,13 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class AddAppointment : AppCompatActivity() {
+    private lateinit var chooseClient: TextInputEditText
+    private val CLIENT_REQUEST_CODE = 1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,11 +31,14 @@ class AddAppointment : AppCompatActivity() {
         val createButton: Button = findViewById<Button>(R.id.bCreate)
         val timeButton: ImageButton = findViewById<ImageButton>(R.id.imageButtonTime)
         val dateButton: ImageButton = findViewById(R.id.imageButtonDate)
-        val chooseClient: TextInputEditText = findViewById<TextInputEditText>(R.id.clientEditText)
+        val chooseClientLayout: TextInputLayout =
+            findViewById<TextInputLayout>(R.id.clientInputLayout)
+        chooseClient = chooseClientLayout.editText as TextInputEditText
 
         editTime.inputType = InputType.TYPE_NULL
         editDate.inputType = InputType.TYPE_NULL
 
+        chooseClient.invalidate()
 
         backButton.setOnClickListener() {
             finish()
@@ -78,7 +86,20 @@ class AddAppointment : AppCompatActivity() {
 
         chooseClient.setOnClickListener() {
             val intent = Intent(this, Clients::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, CLIENT_REQUEST_CODE)
         }
     }
+
+
+    @Deprecated("Deprecated in Java")
+    @SuppressLint("SetTextI18n")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CLIENT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            val name = data?.getStringExtra("name")
+            val email = data?.getStringExtra("email")
+            chooseClient.setText("$name $email")
+        }
+    }
+
 }
