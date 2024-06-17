@@ -50,6 +50,7 @@ class Clients : AppCompatActivity(), OnClientClickListener {
         val intent: Intent = Intent()
         intent.putExtra("name", client.name)
         intent.putExtra("email", client.email)
+        intent.putExtra("photo", client.pictureUrl)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

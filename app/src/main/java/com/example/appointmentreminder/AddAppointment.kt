@@ -11,14 +11,21 @@ import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.OpenForTesting
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
 class AddAppointment : AppCompatActivity() {
     private lateinit var chooseClient: TextInputEditText
+    private lateinit var client_email: TextView
+    private lateinit var photo: String
     private val CLIENT_REQUEST_CODE = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +41,7 @@ class AddAppointment : AppCompatActivity() {
         val dateButton: ImageButton = findViewById(R.id.imageButtonDate)
         val chooseClientLayout: TextInputLayout = findViewById<TextInputLayout>(R.id.clientInputLayout)
         chooseClient = chooseClientLayout.editText as TextInputEditText
+        client_email = findViewById<TextView>(R.id.client_email_add)
 
         editTime.inputType = InputType.TYPE_NULL
         editDate.inputType = InputType.TYPE_NULL
@@ -87,17 +95,22 @@ class AddAppointment : AppCompatActivity() {
             startActivityForResult(intent, CLIENT_REQUEST_CODE)
         }
 
+
         createButton.setOnClickListener {
             val title = editTitle.text.toString()
             val date = editDate.text.toString()
             val time = editTime.text.toString()
             val client_name = chooseClient.text.toString()
+            val client_email = client_email.text
+            val photo = photo
 
             val intent = Intent(this, MainActivity::class.java).apply {
                 putExtra("title", title)
                 putExtra("date", date)
                 putExtra("time", time)
                 putExtra("client_name", client_name)
+                putExtra("client_email", client_email)
+                putExtra("client_photo", photo)
             }
             startActivity(intent)
         }
@@ -110,7 +123,9 @@ class AddAppointment : AppCompatActivity() {
         if (requestCode == CLIENT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val name = data?.getStringExtra("name")
             val email = data?.getStringExtra("email")
-            chooseClient.setText("$name $email")
+            photo = data?.getStringExtra("photo").toString()
+            chooseClient.setText("$name")
+            client_email.text = email
         }
     }
 }

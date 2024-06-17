@@ -33,10 +33,14 @@ class MainActivity : AppCompatActivity() {
         val date = intent.getStringExtra("date")
         val time = intent.getStringExtra("time")
         val client_name = intent.getStringExtra("client_name")
+        val client_email = intent.getStringExtra("client_email")
+        val client_photo = intent.getStringExtra("client_photo")
 
-        if (title != null && date != null && time != null && client_name != null) {
-            val appointment = Appoint(title, date, time, client_name)
+
+        if (title != null && date != null && time != null && client_name != null && client_email != null && client_photo != null) {
+            val appointment = Appoint(title, date, time, client_name, client_email, client_photo)
             appointments.add(appointment)
-            adapter.notifyDataSetChanged()}
+            adapter.notifyDataSetChanged()
+        }
     }
 }
