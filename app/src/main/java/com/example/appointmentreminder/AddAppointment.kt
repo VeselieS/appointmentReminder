@@ -27,12 +27,12 @@ class AddAppointment : AppCompatActivity() {
 
         val editTime: EditText = findViewById(R.id.editTextTime)
         val editDate: EditText = findViewById(R.id.editTextDate)
+        val editTitle: EditText = findViewById(R.id.editTextTitle)
         val backButton: Button = findViewById<Button>(R.id.bBack)
         val createButton: Button = findViewById<Button>(R.id.bCreate)
         val timeButton: ImageButton = findViewById<ImageButton>(R.id.imageButtonTime)
         val dateButton: ImageButton = findViewById(R.id.imageButtonDate)
-        val chooseClientLayout: TextInputLayout =
-            findViewById<TextInputLayout>(R.id.clientInputLayout)
+        val chooseClientLayout: TextInputLayout = findViewById<TextInputLayout>(R.id.clientInputLayout)
         chooseClient = chooseClientLayout.editText as TextInputEditText
 
         editTime.inputType = InputType.TYPE_NULL
@@ -45,7 +45,6 @@ class AddAppointment : AppCompatActivity() {
         }
 
         timeButton.setOnClickListener {
-            // Получаем текущее время
             val c = Calendar.getInstance()
             val hour = c.get(Calendar.HOUR_OF_DAY)
             val minute = c.get(Calendar.MINUTE)
@@ -62,7 +61,6 @@ class AddAppointment : AppCompatActivity() {
         }
 
         dateButton.setOnClickListener {
-            // Получаем текущую дату
             val c = Calendar.getInstance()
             val year = c.get(Calendar.YEAR)
             val month = c.get(Calendar.MONTH)
@@ -88,8 +86,22 @@ class AddAppointment : AppCompatActivity() {
             val intent = Intent(this, Clients::class.java)
             startActivityForResult(intent, CLIENT_REQUEST_CODE)
         }
-    }
 
+        createButton.setOnClickListener {
+            val title = editTitle.text.toString()
+            val date = editDate.text.toString()
+            val time = editTime.text.toString()
+            val client_name = chooseClient.text.toString()
+
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("title", title)
+                putExtra("date", date)
+                putExtra("time", time)
+                putExtra("client_name", client_name)
+            }
+            startActivity(intent)
+        }
+    }
 
     @Deprecated("Deprecated in Java")
     @SuppressLint("SetTextI18n")
@@ -101,5 +113,4 @@ class AddAppointment : AppCompatActivity() {
             chooseClient.setText("$name $email")
         }
     }
-
 }
