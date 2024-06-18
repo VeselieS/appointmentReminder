@@ -12,6 +12,7 @@ constraintlayout = "2.1.4"
 runtimeAndroid = "1.6.7"
 androidAsyncHttp = "1.4.11"
 glide = "5.0.0-rc01"
+gson = "2.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,6 +26,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime-android", version.ref = "runtimeAndroid" }
 android-async-http = { group = "com.loopj.android", name = "android-async-http", version.ref = "androidAsyncHttp" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

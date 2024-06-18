@@ -47,6 +47,7 @@ dependencies {
     implementation(libs.androidx.runtime.android)
     implementation(libs.android.async.http)
     implementation(libs.glide)
+    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

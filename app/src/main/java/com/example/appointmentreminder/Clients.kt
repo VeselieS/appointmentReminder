@@ -4,15 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.JsonHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -60,6 +57,7 @@ class Clients : AppCompatActivity(), OnClientClickListener {
         val url = "https://randomuser.me/api/?results=15"
 
         client.get(url, object : JsonHttpResponseHandler() {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onSuccess(
                 statusCode: Int,
                 headers: Array<Header>?,
@@ -81,16 +79,6 @@ class Clients : AppCompatActivity(), OnClientClickListener {
                 clientsAdapter.clients = clients
                 clientsAdapter.notifyDataSetChanged()
             }
-
-//            override fun onFailure(
-//                statusCode: Int,
-//                headers: Array<Header>?,
-//                throwable: Throwable?,
-//                errorResponse: JSONObject?
-//            ) {
-//                super.onFailure(statusCode, headers, throwable, errorResponse)
-//                // Обработайте ошибку здесь
-//            }
         })
     }
 

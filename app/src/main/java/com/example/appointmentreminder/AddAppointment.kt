@@ -7,16 +7,16 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
 import android.text.InputType
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.OpenForTesting
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -35,11 +35,13 @@ class AddAppointment : AppCompatActivity() {
         val editTime: EditText = findViewById(R.id.editTextTime)
         val editDate: EditText = findViewById(R.id.editTextDate)
         val editTitle: EditText = findViewById(R.id.editTextTitle)
+        editTitle.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(25))
         val backButton: Button = findViewById<Button>(R.id.bBack)
         val createButton: Button = findViewById<Button>(R.id.bCreate)
         val timeButton: ImageButton = findViewById<ImageButton>(R.id.imageButtonTime)
         val dateButton: ImageButton = findViewById(R.id.imageButtonDate)
-        val chooseClientLayout: TextInputLayout = findViewById<TextInputLayout>(R.id.clientInputLayout)
+        val chooseClientLayout: TextInputLayout =
+            findViewById<TextInputLayout>(R.id.clientInputLayout)
         chooseClient = chooseClientLayout.editText as TextInputEditText
         client_email = findViewById<TextView>(R.id.client_email_add)
 
@@ -95,6 +97,20 @@ class AddAppointment : AppCompatActivity() {
             startActivityForResult(intent, CLIENT_REQUEST_CODE)
         }
 
+        val fields = listOf(editTitle, editDate, chooseClient)
+        createButton.isEnabled = false
+
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                createButton.isEnabled = fields.all { it.text.toString().isNotEmpty() }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        fields.forEach { it.addTextChangedListener(watcher) }
+
 
         createButton.setOnClickListener {
             val title = editTitle.text.toString()
@@ -112,7 +128,8 @@ class AddAppointment : AppCompatActivity() {
                 putExtra("client_email", client_email)
                 putExtra("client_photo", photo)
             }
-            startActivity(intent)
+            setResult(RESULT_OK, intent)
+            finish()
         }
     }
 
