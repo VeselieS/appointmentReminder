@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,11 +20,14 @@ import org.json.JSONObject
 class Clients : AppCompatActivity(), OnClientClickListener {
 
     private lateinit var clientsAdapter: ClientAdapter
+    private lateinit var loadingView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_clients)
+
+        loadingView = findViewById<TextView>(R.id.loadingView)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,6 +58,7 @@ class Clients : AppCompatActivity(), OnClientClickListener {
     }
 
     private fun loadClients() {
+        loadingView.visibility = View.VISIBLE
         val client = AsyncHttpClient()
         val url = "https://randomuser.me/api/?results=15"
 
@@ -64,6 +70,7 @@ class Clients : AppCompatActivity(), OnClientClickListener {
                 response: JSONObject?
             ) {
                 super.onSuccess(statusCode, headers, response)
+                loadingView.visibility = View.GONE
                 val results = response?.getJSONArray("results")
                 val clients = mutableListOf<Client>()
                 for (i in 0 until (results?.length() ?: 0)) {

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,7 +58,8 @@ class MainActivity : AppCompatActivity() {
             val client_photo = data.getStringExtra("client_photo")
 
             if (title != null && date != null && time != null && client_name != null && client_email != null && client_photo != null) {
-                val appointment = Appoint(title, date, time, client_name, client_email, client_photo)
+                val appointment =
+                    Appoint(title, date, time, client_name, client_email, client_photo)
                 appointments.add(appointment)
                 adapter.notifyDataSetChanged()
 
